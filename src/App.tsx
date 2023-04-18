@@ -54,6 +54,7 @@ function App() {
         changeFilter={changeFilter}
         changeChecker={changeChecker}
         addTask={addTask}
+        filter={filter}
       />
     </div>
   );
