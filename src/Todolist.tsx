@@ -4,11 +4,12 @@ import { FilteredValueType } from "./App";
 type PropsType = {
   title: string;
   tasks: Array<TasksType>;
-  removeTask: (taskId: string) => void;
-  changeFilter: (value: FilteredValueType) => void;
-  changeChecker: (taskId: string, isDone: boolean) => void;
-  addTask: (title: string) => void;
+  removeTask: (taskId: string, toDoListId: string) => void;
+  changeFilter: (value: FilteredValueType, toDoListId: string) => void;
+  changeChecker: (taskId: string, isDone: boolean, todolistId: string) => void;
+  addTask: (title: string, todolistID: string) => void;
   filter: FilteredValueType;
+  id: string;
 };
 export type TasksType = {
   id: string;
@@ -25,26 +26,26 @@ export function Todolist(props: PropsType) {
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     setError(null);
     if (e.charCode === 13) {
-      props.addTask(newTaskTitle);
+      props.addTask(newTaskTitle, props.id);
       setNewTaskTitle("");
     }
   };
   const addTask = () => {
     if (newTaskTitle.trim() !== "") {
-      props.addTask(newTaskTitle);
+      props.addTask(newTaskTitle, props.id);
       setNewTaskTitle("");
     } else {
       setError("Title is required!");
     }
   };
   const onAllClickHandler = () => {
-    props.changeFilter("all");
+    props.changeFilter("all", props.id);
   };
   const onActiveClickHandler = () => {
-    props.changeFilter("active");
+    props.changeFilter("active", props.id);
   };
   const onCompletedClickHandler = () => {
-    props.changeFilter("completed");
+    props.changeFilter("completed", props.id);
   };
   return (
     <div>
@@ -62,10 +63,10 @@ export function Todolist(props: PropsType) {
       <ul>
         {props.tasks.map((task) => {
           const onChangeHandler = (e: any) => {
-            props.changeChecker(task.id, e.currentTarget.checked);
+            props.changeChecker(task.id, e.currentTarget.checked, props.id);
           };
           const removeTask = () => {
-            props.removeTask(task.id);
+            props.removeTask(task.id, props.id);
           };
 
           return (
