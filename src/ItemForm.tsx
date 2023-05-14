@@ -1,3 +1,4 @@
+import { Button, TextField, Alert } from "@mui/material";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 
 type AddItemPropsType = {
@@ -28,15 +29,33 @@ const ItemForm = (props: AddItemPropsType) => {
   };
 
   return (
-    <div>
-      <input
-        className={error ? "error" : ""}
-        value={title}
-        onChange={onChangeHandler}
-        onKeyPress={onKeyPressHandler}
-      />
-      <button onClick={addItem}>+</button>
-      {error && <div className="error-message">{error}</div>}
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <div>
+        <TextField
+          label="Task Name"
+          variant="standard"
+          error={!!error}
+          className={error ? "error" : ""}
+          value={title}
+          onChange={onChangeHandler}
+          onKeyPress={onKeyPressHandler}
+        />
+        <Button
+          style={{ height: " 48px " }}
+          variant="contained"
+          color="secondary"
+          size="small"
+          onClick={addItem}
+        >
+          +
+        </Button>
+      </div>
+
+      {error && (
+        <Alert severity="error" className="error-message">
+          {error}
+        </Alert>
+      )}
     </div>
   );
 };
