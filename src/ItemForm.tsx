@@ -1,16 +1,19 @@
 import { Button, TextField, Alert } from "@mui/material";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
+import React from "react";
 
 type AddItemPropsType = {
   addItem: (title: string) => void;
 };
 
-const ItemForm = (props: AddItemPropsType) => {
+export const ItemForm = React.memo((props: AddItemPropsType) => {
   const [error, setError] = useState<string | null>(null);
   const [title, setTitle] = useState("");
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    setError(null);
+    if (error !== null) {
+      setError(null);
+    }
     if (e.charCode === 13) {
       props.addItem(title);
       setTitle("");
@@ -58,6 +61,4 @@ const ItemForm = (props: AddItemPropsType) => {
       )}
     </div>
   );
-};
-
-export default ItemForm;
+});
